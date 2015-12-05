@@ -1,34 +1,44 @@
 mirrordb: 
     image:daocloud.io/library/mongo:3.0.4
     volumes: /mongodbdata/mirror /mongodata
-
+    tty: true
 
 mirrorweb:
     build: .
-    ports: "8001:8000"
+    ports: "9001:8000"
+    links:
+        - mirrordb:mirrordb
     volumes: /code/mirror/nile /code
+    tty: true
 
 
 predb: 
     image:daocloud.io/library/mongo:3.0.4
     volumes: /mongodbdata/pre /mongodata
-
+    tty: true
 
 preweb:
     build: .
     ports: "8001:8000"
     volumes: /code/pre/nile /code
+    links:
+        - predb:predb
+    tty: true
 
 
 devdb: 
     image:daocloud.io/library/mongo:3.0.4
     volumes: /mongodbdata/dev /mongodata
+    tty: true
 
 
 devweb:
     build: .
-    ports: "8001:8000"
+    ports: "7001:8000"
     volumes: /code/dev/nile /code
+    links:
+        - devdb:devdb
+    tty: true
 
 
 
